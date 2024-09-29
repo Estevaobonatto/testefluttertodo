@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'task_model.dart';
+import 'database_service.dart';
 
 class TarefasPage extends StatefulWidget {
   const TarefasPage({Key? key}) : super(key: key);
@@ -8,21 +10,34 @@ class TarefasPage extends StatefulWidget {
 }
 
 class _TarefasPageState extends State<TarefasPage> {
-  final List<String> _tarefas = ['Tarefa 1', 'Tarefa 2', 'Tarefa 3'];
+  List<Task> _tarefas = [];
+
+  @override
+  void initState() {
+    super.initState();
+    _loadTarefas();
+  }
+
+  void _loadTarefas() {
+    setState(() {
+      _tarefas = DatabaseService.getAllTasks();
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
       itemCount: _tarefas.length,
       itemBuilder: (context, index) {
+        final tarefa = _tarefas[index];
         return ListTile(
-          title: Text(_tarefas[index]),
+          title: Text(tarefa.title),
+          subtitle: Text('Categoria: ${tarefa.category}'),
           trailing: IconButton(
             icon: const Icon(Icons.delete),
-            onPressed: () {
-              setState(() {
-                _tarefas.removeAt(index);
-              });
+            onPressed: () async {
+              await DatabaseService.deleteTask(tarefa.id);
+              _loadTarefas();
             },
           ),
         );

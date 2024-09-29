@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+// Widget para a página de configurações
 class ConfigsPage extends StatefulWidget {
+  // Função para alternar o tema
   final Function(ThemeMode) toggleTheme;
 
   const ConfigsPage({Key? key, required this.toggleTheme}) : super(key: key);
@@ -10,6 +12,7 @@ class ConfigsPage extends StatefulWidget {
 }
 
 class _ConfigsPageState extends State<ConfigsPage> {
+  // Variáveis de estado para as configurações
   bool _notificacoesAtivadas = true;
   ThemeMode _themeMode = ThemeMode.light;
 
@@ -17,6 +20,7 @@ class _ConfigsPageState extends State<ConfigsPage> {
   Widget build(BuildContext context) {
     return ListView(
       children: [
+        // Switch para ativar/desativar notificações
         SwitchListTile(
           title: const Text('Notificações'),
           value: _notificacoesAtivadas,
@@ -26,6 +30,7 @@ class _ConfigsPageState extends State<ConfigsPage> {
             });
           },
         ),
+        // Switch para alternar entre tema claro e escuro
         ListTile(
           title: const Text('Tema'),
           subtitle: Text(_themeMode == ThemeMode.light ? 'Claro' : 'Escuro'),
